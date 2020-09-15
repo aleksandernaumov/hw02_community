@@ -7,7 +7,7 @@ User = get_user_model()
 class Group(models.Model):
     title = models.CharField('Сообщество', max_length=200)
     slug = models.SlugField(
-        'Ссылка (slug)', unique=True, max_length=200
+        'Ссылка (slug)', unique=True, max_length=75
     )
     description = models.TextField(
         'Описание', help_text='Краткое описание сообщества'
@@ -15,6 +15,9 @@ class Group(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = 'Группы'
 
 
 class Post(models.Model):
@@ -32,11 +35,12 @@ class Post(models.Model):
         verbose_name='Сообщество'
     )
 
-    def posts_list(group=None):
-        posts_list = Post.objects.order_by('-pub_date')
-        if group is not None:
-            posts_list = posts_list.filter(group=group)
-        return posts_list
-
     def __str__(self):
-        return f'{self.author} - {self.pub_date.date()} - {self.text[:20]} ...'
+        post_date = self.pub_date
+        post_author = self.author
+        post_text = self.text[:20]
+        return f'{post_author} - {post_date:%d-%m-%Y} - {post_text} ...'
+
+    class Meta:
+        ordering = ['-pub_date']
+        verbose_name_plural = 'Записи'
