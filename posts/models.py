@@ -7,7 +7,7 @@ User = get_user_model()
 class Group(models.Model):
     title = models.CharField('Сообщество', max_length=200)
     slug = models.SlugField(
-        'Ссылка (slug)', unique=True, max_length=75
+        'Ссылка (slug)', unique=True, max_length=50
     )
     description = models.TextField(
         'Описание', help_text='Краткое описание сообщества'
