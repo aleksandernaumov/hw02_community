@@ -13,11 +13,11 @@ class Group(models.Model):
         'Описание', help_text='Краткое описание сообщества'
     )
 
-    def __str__(self):
-        return self.title
-
     class Meta:
         verbose_name_plural = 'Группы'
+
+    def __str__(self):
+        return self.title
 
 
 class Post(models.Model):
@@ -35,12 +35,12 @@ class Post(models.Model):
         verbose_name='Сообщество'
     )
 
+    class Meta:
+        ordering = ['-pub_date']
+        verbose_name_plural = 'Записи'
+
     def __str__(self):
         post_date = self.pub_date
         post_author = self.author
         post_text = self.text[:20]
         return f'{post_author} - {post_date:%d-%m-%Y} - {post_text} ...'
-
-    class Meta:
-        ordering = ['-pub_date']
-        verbose_name_plural = 'Записи'
